@@ -65,7 +65,7 @@ contract SmartContractWallet {
                     userMapping[addressesWithVotes[i]].newOwnerCount = 0;
                 }
             }
-        } else {
+        } else if (_revokeVote) {
             userMapping[msg.sender].usedVote = false;
             userMapping[_userAddress].newOwnerCount -= 1;
         }
