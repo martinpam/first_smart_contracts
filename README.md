@@ -1,5 +1,5 @@
-# first_smart_contracts
-Trying my hands on some Solidity programming
+# Smart Contract Playground
+Just trying my hands on some Solidity programming
 
 ## 1. SmartContractWallet.sol
 
