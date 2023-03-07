@@ -11,7 +11,7 @@ contract SmartContractWallet {
         bool usedVote;
     }
     uint8 numberOfGuardians;
-    address[] guardianAddresses;
+    address[] addressesWithVotes;
     mapping(address => User) public userMapping;
 
     constructor(address _initialOwner) {
@@ -26,10 +26,6 @@ contract SmartContractWallet {
         receiveFunds();
     }
 
-    function addGuardianAddress(address _address) private {
-        guardianAddresses.push(_address);
-    }
-    
 
     function transfer(address payable _to, uint _amount) payable public {
         if (msg.sender == owner) {
@@ -60,13 +56,13 @@ contract SmartContractWallet {
     function voteNewOwner(address _userAddress, bool _revokeVote) public {
         require(userMapping[msg.sender].isGuardian, "You are not a guardian");
         if (!_revokeVote && !userMapping[msg.sender].usedVote) {
-            addGuardianAddress(_userAddress);
+            addressesWithVotes.push(_userAddress);
             userMapping[msg.sender].usedVote = true;
             userMapping[_userAddress].newOwnerCount += 1;
             if (userMapping[_userAddress].newOwnerCount == 3) {
                 owner = _userAddress;
-                for (uint i = 0; i < guardianAddresses.length; i++) {
-                    userMapping[guardianAddresses[i]].newOwnerCount = 0;
+                for (uint i = 0; i < addressesWithVotes.length; i++) {
+                    userMapping[addressesWithVotes[i]].newOwnerCount = 0;
                 }
             }
         } else {
